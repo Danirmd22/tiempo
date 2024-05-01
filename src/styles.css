@@ -34,3 +34,14 @@
 }
 html, body { height: 100%; }
 body { margin: 0; }
+.morning {
+  background-image: url('/assets/images/morning.jpg');
+}
+
+.afternoon {
+  background-image: url('/assets/images/afternoon.jpg');
+}
+
+.night {
+  background-image: url('/assets/images/night.jpg');
+}

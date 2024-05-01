@@ -2,14 +2,14 @@
   <div class="w-full mt-2 flex flex-wrap justify-center gap-x-4">
     <div class="w-11/12 lg:w-6/12">
       <div class="backdrop-blur-lg rounded-lg shadow-md flex justify-center items-center flex-wrap dark:bg-slate-800/50 bg-slate-300/20">
-        <h2 class="block w-full bg-black/30 rounded-t-lg p-2 text-white font-semibold text-lg text-shadow">{{ weatherData.name }}, {{ weatherData.sys.country }}<span class="text-sm text-shadow"></span></h2>
+        <h2 class="block w-full bg-black/30 rounded-t-lg p-2 text-white font-semibold text-lg text-shadow">{{ weatherData?.name }}, {{ weatherData?.sys.country }}<span class="text-sm text-shadow"></span></h2>
         <div class="w-4/5 py-3 px-4">
-          <h2 class="text-white font-semibold text-shadow lg:text-8xl text-6xl">{{ (weatherData.main.temp - 273.15).toFixed(0) }}º</h2>
-          <h2 class="first-letter:uppercase font-bold text-2xl text-shadow text-white">{{ weatherData.weather[0].description }}</h2>
-          <h2 class="text-white font-bold text-2xl text-shadow">Min. {{ (weatherData.main.temp_min - 273.15).toFixed(0) }}º • Máx. {{ (weatherData.main.temp_max - 273.15).toFixed(0) }}º</h2>
+          <h2 class="text-white font-semibold text-shadow lg:text-8xl text-6xl">{{ (weatherData?.main.temp - 273.15).toFixed(0) }}º</h2>
+          <h2 class="first-letter:uppercase font-bold text-2xl text-shadow text-white">{{ weatherData?.weather[0]?.description }}</h2>
+          <h2 class="text-white font-bold text-2xl text-shadow">Min. {{ (weatherData?.main.temp_min - 273.15).toFixed(0) }}º • Máx. {{ (weatherData?.main.temp_max - 273.15).toFixed(0) }}º</h2>
         </div>
         <div class="w-1/5">
-          <img src="" class="w-64 drop-shadow-lg" alt="icon" />
+          <img [src]="iconUrl" class="w-64 drop-shadow-lg" alt="Icono del clima">
         </div>
       </div>
     </div>

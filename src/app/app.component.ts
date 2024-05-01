@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent {
   title = 'tiempo';
   weatherData: any;
+  timeOfDay: string = '';
   localTime: string = '';
 constructor(private http: HttpClient) { }
 
@@ -22,16 +23,26 @@ ngOnInit() {
         const utc = now.getTime() / 1000 + localOffset;
         const localTimeInSeconds = utc + this.weatherData.timezone;
         const localDate = new Date(localTimeInSeconds * 1000);
-        const hours = localDate.getHours().toString().padStart(2, '0');
+        const hours = localDate.getHours();
         const minutes = localDate.getMinutes().toString().padStart(2, '0');
-        this.localTime = `${hours}:${minutes}`;
-        console.log(this.weatherData);
+        this.localTime = `${hours.toString().padStart(2, '0')}:${minutes}`;
+
+        if (hours >= 6 && hours < 12) {
+          this.timeOfDay = 'morning';
+        } else if (hours >= 12 && hours < 18) {
+          this.timeOfDay = 'afternoon';
+        } else {
+          this.timeOfDay = 'night';
+        }
+
       }, err => {
         console.log(err);
       });
   });
+}
+
 
 }
 
-}
+
 
