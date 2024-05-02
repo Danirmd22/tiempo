@@ -4,13 +4,14 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   title = 'tiempo';
   weatherData: any;
   timeOfDay: string = '';
   localTime: string = '';
+  forecastData: any;
 constructor(private http: HttpClient) { }
 
 ngOnInit() {
@@ -27,18 +28,34 @@ ngOnInit() {
         const minutes = localDate.getMinutes().toString().padStart(2, '0');
         this.localTime = `${hours.toString().padStart(2, '0')}:${minutes}`;
 
-        if (hours >= 6 && hours < 12) {
+        if (hours >= 6 && hours < 14) {
           this.timeOfDay = 'morning';
-        } else if (hours >= 12 && hours < 18) {
+          console.log('Morning');
+        } else if (hours >= 14 && hours < 20) {
           this.timeOfDay = 'afternoon';
+          console.log('Afternoon');
         } else {
           this.timeOfDay = 'night';
+          console.log('Night');
         }
 
       }, err => {
         console.log(err);
       });
   });
+
+  navigator.geolocation.getCurrentPosition((position) => {
+    this.http.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=9e12ce681891bbfbbfce1e15fbad0f67&lang=es`)
+      .subscribe(data => {
+        this.forecastData = data;
+        console.log(this.forecastData);
+        // ...
+      }, err => {
+        console.log(err);
+      });
+  });
+
+
 }
 
 

@@ -34,6 +34,13 @@
 }
 html, body { height: 100%; }
 body { margin: 0; }
+
+
+.morning, .afternoon, .night {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .morning {
   background-image: url('/assets/images/morning.jpg');
 }

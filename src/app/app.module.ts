@@ -10,6 +10,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { WeatherComponent } from './weather/weather.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CardWeatherComponent } from './cards/card-weather/card-weather.component';
+import { CardPronosticoComponent } from './cards/card-pronostico/card-pronostico.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
@@ -19,6 +21,7 @@ import { CardWeatherComponent } from './cards/card-weather/card-weather.componen
     AppComponent,
       WeatherComponent,
       CardWeatherComponent,
+      CardPronosticoComponent,
 
    ],
   imports: [
@@ -26,7 +29,8 @@ import { CardWeatherComponent } from './cards/card-weather/card-weather.componen
     AppRoutingModule,
     RouterModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    FontAwesomeModule
 
 
 

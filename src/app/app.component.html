@@ -1,4 +1,9 @@
+<div [ngClass]="timeOfDay">
+
 <app-header></app-header>
 
+
 <app-card-weather [weatherData]="weatherData" ></app-card-weather>
+<app-card-pronostico [weatherData]="weatherData" [forecastData]="forecastData"></app-card-pronostico>
 <app-footer></app-footer>
+</div>
