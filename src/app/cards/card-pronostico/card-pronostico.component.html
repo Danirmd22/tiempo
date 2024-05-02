@@ -1,14 +1,14 @@
 <div class="flex justify-center items-center ">
   <div class="w-11/12 lg:w-6/12 bg-white rounded-lg shadow-md flex items-center mt-4 pb-4 px-4 pt-3 flex-wrap dark:bg-slate-900">
     <h2 class="block w-full text-black font-bold text-xl dark:text-white pb-2">Pronóstico de hoy para {{ weatherData?.name }}, {{ weatherData?.sys.country }}</h2>
-    <ng-container *ngFor="let forecast of forecastData?.list ; let i = index">
-      <ng-container *ngIf="i < 4">
+    <ng-container *ngFor="let forecast of nextForecasts">
+
       <div class="w-1/4 flex-col m-auto items-center text-center py-3 borde-medio">
-        <p class="font-bold text-black pb-2 dark:text-white">{{ forecast.dt_txt | date:'HH':'UTC'}}h</p>
+        <p class="font-bold text-black pb-2 dark:text-white">{{ forecast.dt_txt | date:'HH'}}h</p>
         <p class="font-bold text-blue-600 text-4xl">{{ (forecast.main.temp - 273.15).toFixed(0) }}º</p>
         <p class="font-semibold"><fa-icon [icon]="faDroplet" class="text-sky-400 px-1"></fa-icon> <span class="text-black dark:text-white">{{ (forecast.pop * 100).toFixed(0) }}%</span></p>
       </div>
-    </ng-container>
+
     </ng-container>
     <button class="block mt-2 text-white font-bold bg-blue-600 py-2 px-3 text-sm rounded-3xl hover:shadow-md hover:shadow-blue-600/40">Próximas horas</button>
   </div>
