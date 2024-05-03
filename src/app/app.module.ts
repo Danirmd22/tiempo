@@ -5,15 +5,19 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 
 import { SharedModule } from './shared/shared.module';
-
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+import { LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { WeatherComponent } from './weather/weather.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CardWeatherComponent } from './cards/card-weather/card-weather.component';
 import { CardPronosticoComponent } from './cards/card-pronostico/card-pronostico.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CardSensacionComponent } from './cards/card-sensacion/card-sensacion.component';
+import { CardPronosticosemanalComponent } from './cards/card-pronosticosemanal/card-pronosticosemanal.component';
 
-
+registerLocaleData(localeEs, 'es');
 
 
 @NgModule({
@@ -22,6 +26,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
       WeatherComponent,
       CardWeatherComponent,
       CardPronosticoComponent,
+      CardSensacionComponent,
+      CardPronosticosemanalComponent,
 
    ],
   imports: [
@@ -40,7 +46,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   exports: [
 
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'es' }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

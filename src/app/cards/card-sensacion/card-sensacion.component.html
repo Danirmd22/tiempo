@@ -1,0 +1,17 @@
+
+<div class="flex flex-wrap justify-center items-center gap-4 px-4 sm:px-0">
+  <div class="dark:bg-slate-800/50 w-full md:w-1/4 bg-slate-300/40 backdrop-blur-lg rounded-lg shadow-md flex justify-center mt-4 items-center flex-wrap">
+      <div class="w-full py-3 px-4">
+          <h2 class="block w-full rounded-t-lg p-2 text-white font-semibold text-lg text-shadow"><fa-icon [icon]="faThermometerEmpty"></fa-icon> Sensación</h2>
+          <h2 class=" text-white lg:text-8xl text-5xl font-semibold py-1 text-shadow" *ngIf="weatherData && weatherData.main">{{(weatherData.main.feels_like - 273.15).toFixed(0)}}º</h2>
+          <h2 class=" text-white font-bold text-lg py-2">Similar a la temperatura real</h2>
+      </div>
+  </div>
+  <div class="dark:bg-slate-800/50 w-full sm:w-1/2 md:w-1/4 bg-slate-300/40 backdrop-blur-lg rounded-lg shadow-md flex justify-center mt-4 items-center flex-wrap">
+    <div class="w-full py-3 px-4">
+        <h2 class="block w-full rounded-t-lg p-2 text-white font-semibold text-lg text-shadow"><fa-icon [icon]="faEye"></fa-icon> Visibilidad</h2>
+        <h2 class=" text-white lg:text-8xl text-5xl font-semibold text-shadow py-1" *ngIf="weatherData">{{(weatherData.visibility)/1000}} km</h2>
+        <h2 class=" text-white font-bold text-lg py-2">Hay muy buena visibilidad</h2>
+    </div>
+  </div>
+</div>
