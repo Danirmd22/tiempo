@@ -29,17 +29,19 @@ ngOnInit(): void {
   }
 
   updateWeeklyForecast(): void {
-    let currentDay = new Date().getDay();
-    this.weeklyForecast = this.forecastData.list.filter((forecast: any) => {
-      const forecastDay = new Date(forecast.dt_txt).getDay();
-      if (forecastDay !== currentDay) {
-        currentDay = forecastDay;
-        return true;
-      }
-      return false;
-    }).slice(0, 4).map((forecast: any) => {
-      // Convertir la cadena de fecha y hora a un objeto Date
-      forecast.dt_txt = new Date(forecast.dt_txt);
-      return forecast;
-    });
+    if (this.forecastData && this.forecastData.list) {
+      let currentDay = new Date().getDay();
+      this.weeklyForecast = this.forecastData.list.filter((forecast: any) => {
+        const forecastDay = new Date(forecast.dt_txt).getDay();
+        if (forecastDay !== currentDay) {
+          currentDay = forecastDay;
+          return true;
+        }
+        return false;
+      }).slice(0, 4).map((forecast: any) => {
+        // Convertir la cadena de fecha y hora a un objeto Date
+        forecast.dt_txt = new Date(forecast.dt_txt);
+        return forecast;
+      });
+    }
   }}
