@@ -15,21 +15,27 @@ export class CardPronosticoComponent {
   faDroplet = faDroplet;
 constructor(private weatherService: WeatherService) { }
 
-  ngOnInit(): void {
-    this.weatherService.forecastData$.subscribe(data => {
-      this.forecastData = data;
+ngOnInit(): void {
+  this.weatherService.weatherData$.subscribe(data => {
+    this.weatherData = data;
+  });
+  this.weatherService.forecastData$.subscribe(data => {
+    this.forecastData = data;
+    if (this.forecastData) {
       const now = new Date();
       this.nextForecasts = this.forecastData.list.filter((forecast: any) => new Date(forecast.dt_txt) > now).slice(0, 4);
-    });
+    }
+  });
+}
 
+ngOnChanges(changes: SimpleChanges): void {
+  if (changes['forecastData'] && changes['forecastData'].currentValue) {
+    this.forecastData = changes['forecastData'].currentValue;
+    if (this.forecastData) {
+      const now = new Date();
+      this.nextForecasts = this.forecastData.list.filter((forecast: any) => new Date(forecast.dt_txt) > now).slice(0, 4);
+    }
   }
+}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['forecastData'] && changes['forecastData'].currentValue) {
-      this.forecastData = changes['forecastData'].currentValue;
-      const now = new Date();
-      this.nextForecasts = this.forecastData.list.filter((forecast: any) => new Date(forecast.dt_txt) > now).slice(0, 4);
-    }}}
-
-
-
+}

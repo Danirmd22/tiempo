@@ -33,8 +33,10 @@ export class CardWeatherComponent {
   ngOnInit(): void {
     this.weatherService.weatherData$.subscribe(data => {
       this.weatherData = data;
+      if (this.weatherData && this.weatherData.weather && this.weatherData.weather[0]) {
+        this.iconUrl = this.url + this.weatherData.weather[0].icon + '@4x.png';
+      }
     });
-
 
   }
   ngOnChanges(changes: SimpleChanges): void {
