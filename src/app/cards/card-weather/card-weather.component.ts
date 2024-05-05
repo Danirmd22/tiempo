@@ -4,6 +4,7 @@ import { OnInit } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SimpleChanges } from '@angular/core';
+import { WeatherService } from '../../shared/services/weather.service';
 @Component({
   selector: 'app-card-weather',
   templateUrl: './card-weather.component.html',
@@ -26,8 +27,16 @@ export class CardWeatherComponent {
     'Sábado',
   ];
 
-  constructor(private cdr: ChangeDetectorRef,private http: HttpClient) {}
+  constructor(private cdr: ChangeDetectorRef,private http: HttpClient,private weatherService: WeatherService) {}
 
+
+  ngOnInit(): void {
+    this.weatherService.weatherData$.subscribe(data => {
+      this.weatherData = data;
+    });
+
+
+  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['weatherData'] && changes['weatherData'].currentValue) {
       this.weatherData = changes['weatherData'].currentValue;
