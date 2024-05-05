@@ -20,7 +20,7 @@ export class WeatherService {
   constructor(private http: HttpClient) { }
 
   getCityWeather(city: string): void {
-    this.http.get(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.API_KEY}&lang=es`).subscribe(data => {
+    this.http.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.API_KEY}&lang=es`).subscribe(data => {
       this.weatherDataSubject.next(data);
       console.log("Prueba1");
       console.log(data);
@@ -28,7 +28,7 @@ export class WeatherService {
   }
 
   getCityForecast(city: string): Observable<any> {
-    return this.http.get(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${this.API_KEY}&lang=es`);
+    return this.http.get(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${this.API_KEY}&lang=es`);
   }
 
 
