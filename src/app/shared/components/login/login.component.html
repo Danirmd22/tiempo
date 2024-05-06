@@ -1,0 +1,70 @@
+<!-- Login component -->
+<div class="flex justify-center items-center w-full h-full">
+
+  <!-- Login form -->
+  <div class="flex flex-col xl:flex-row shadow-md w-full h-full">
+
+    <!-- Login form container -->
+    <div class="xl:w-1/2 bg-white p-5">
+      <!-- Heading -->
+      <div class="text-center mb-1 xl:p-5 p-5">
+        <p class="text-2xl font-bold mb-5">Inicia sesión</p>
+        <p class="text-1xl mb-1">Acceso seguro: Inicia sesión para explorar más</p>
+      </div>
+
+      <!-- Form -->
+      <form class=" p-3 mb-6"  method="post">
+        <div class="mb-4">
+          <label class="block mb-2 text-sm font-semibold" for="email">Email</label>
+          <input class="w-full border border-gray-300 rounded-md py-2 px-3" formControlName="username" type="email"
+            name="email" id="email" placeholder="" #email>
+        </div>
+
+        <div class="mb-2">
+          <label class="block mb-2 text-sm font-bold" for="password">Contraseña</label>
+          <input class="w-full border border-gray-300 rounded-md py-2 px-3" formControlName="password" type="password"
+            name="password" id="password" placeholder="" #password>
+
+            <div class="flex w-full items-center gap-2 py-6 text-sm text-slate-600">
+              <div class="h-px w-full bg-slate-200"></div>
+              OR
+              <div class="h-px w-full bg-slate-200"></div>
+          </div>
+
+            <button
+        class="inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60"><img
+            src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google"
+            class="h-[18px] w-[18px] ">Continue with
+        Google
+    </button>
+
+    <button type="button"
+    class="w-full mt-12 bg-black rounded-md text-white font-medium py-2 disabled:bg-black/40 disabled:cursor-not-allowed" (click)="login(email.value, password.value)">
+    Login</button>
+
+        </div>
+
+
+
+
+
+
+
+
+      <div class="pt-2 pb-0">
+        <p> No has creado una cuenta? <a href="/registro" class="underline hover:text-primary">Regístrate</a></p>
+      </div>
+
+      <div class="pt-2 pb-0">
+
+      </div>
+
+  </form>
+    </div>
+    <!-- Login banner -->
+    <div class="hidden xl:block xl:w-1/2 bg-cover bg-center bg-no-repeat"
+      style="background-image: url('assets/images/daoudi-aissa-Pe1Ol9oLc4o.jpg')">
+    </div>
+
+  </div>
+</div>

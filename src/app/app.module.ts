@@ -17,6 +17,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CardSensacionComponent } from './cards/card-sensacion/card-sensacion.component';
 import { CardPronosticosemanalComponent } from './cards/card-pronosticosemanal/card-pronosticosemanal.component';
 import { FormsModule } from '@angular/forms';
+
+
 registerLocaleData(localeEs, 'es');
 
 
@@ -48,7 +50,9 @@ registerLocaleData(localeEs, 'es');
 
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'es' }
+    { provide: LOCALE_ID, useValue: 'es' },
+
+
   ],
   bootstrap: [AppComponent],
 })
