@@ -27,6 +27,9 @@ login(email: string, password: string) {
         duration: 2000,
       });
       this.loginSuccess.emit();
+
+      // Guardar datos en localStorage
+      localStorage.setItem('user', JSON.stringify(userCredential.user));
     })
     .catch((error) => {
       // Error en el inicio de sesión, puedes manejar el error aquí
