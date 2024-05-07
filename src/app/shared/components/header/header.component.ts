@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class HeaderComponent  {
   city: string = '';weatherData: any;
-  forecastData: any; isLoggedIn: boolean = false;
+  forecastData: any;
 
   constructor(private weatherService: WeatherService,private dialog: MatDialog) { }
 
@@ -40,11 +40,7 @@ export class HeaderComponent  {
         maxHeight: '120vh',
     });
 
-    dialogLogin.afterClosed().subscribe(result => {
-      if (result === true) {
-        this.isLoggedIn = true;
-      }
-    });
+
   }
 
 
