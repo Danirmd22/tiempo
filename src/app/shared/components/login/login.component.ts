@@ -3,12 +3,15 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { getAuth } from 'firebase/auth';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { EventEmitter, Output } from '@angular/core';
+
 @Component({
   selector: 'app-header',
   templateUrl: './login.component.html',
 
 })
 export class LoginComponent {
+  @Output() loginSuccess = new EventEmitter<void>();
 
 constructor (private snackBar: MatSnackBar) {
   const auth = getAuth();
@@ -23,6 +26,7 @@ login(email: string, password: string) {
       this.snackBar.open('Inicio de sesión exitoso', 'Cerrar', {
         duration: 2000,
       });
+      this.loginSuccess.emit();
     })
     .catch((error) => {
       // Error en el inicio de sesión, puedes manejar el error aquí
