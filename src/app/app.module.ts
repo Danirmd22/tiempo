@@ -17,7 +17,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CardSensacionComponent } from './cards/card-sensacion/card-sensacion.component';
 import { CardPronosticosemanalComponent } from './cards/card-pronosticosemanal/card-pronosticosemanal.component';
 import { FormsModule } from '@angular/forms';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 registerLocaleData(localeEs, 'es');
 
@@ -40,7 +40,7 @@ registerLocaleData(localeEs, 'es');
     HttpClientModule,
     FontAwesomeModule,
     FormsModule,
-
+    BrowserAnimationsModule,
 
 
 
