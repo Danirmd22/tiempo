@@ -4,6 +4,7 @@ import { getAuth } from 'firebase/auth';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EventEmitter, Output } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -12,31 +13,32 @@ import { EventEmitter, Output } from '@angular/core';
 })
 export class LoginComponent {
   @Output() loginSuccess = new EventEmitter<void>();
+  loginForm: FormGroup;
+
 
 constructor (private snackBar: MatSnackBar) {
   const auth = getAuth();
-}
-
-login(email: string, password: string) {
-  const auth = getAuth();
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Inicio de sesión exitoso, puedes acceder a los datos del usuario con userCredential.user
-      console.log("Inicio de sesión exitoso");
-      this.snackBar.open('Inicio de sesión exitoso', 'Cerrar', {
-        duration: 2000,
-      });
-      this.loginSuccess.emit();
-
-      // Guardar datos en localStorage
-      localStorage.setItem('user', JSON.stringify(userCredential.user));
-    })
-    .catch((error) => {
-      // Error en el inicio de sesión, puedes manejar el error aquí
-      console.log("Error en el inicio de sesión");
-      this.snackBar.open('Correo eléctronico o Contraseña incorrecta', 'Cerrar', {
-        duration: 4000,
-      });
+    this.loginForm = new FormGroup({
+      username: new FormControl(''),
+      password: new FormControl(''),
     });
 }
+
+
+login() {
+  const auth = getAuth();
+  signInWithEmailAndPassword(auth, this.loginForm.value.username, this.loginForm.value.password)
+    .then((userCredential) => {
+      // Guardar los datos del usuario en el almacenamiento local
+      localStorage.setItem('user', JSON.stringify(userCredential.user));
+      localStorage.setItem('isLoggedIn', 'true');
+      // Emitir evento de éxito de inicio de sesión
+      this.loginSuccess.emit();
+      location.reload();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
 }

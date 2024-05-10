@@ -17,24 +17,25 @@
           </div>
 
           <div class="flex items-center w-1/5 gap-3 justify-center">
-            <a  (click)="openDialogLogin()"><button class="block dark:text-sky-400 w-full px-4 py-2.5 text-sm font-bold text-sky-400 bg-sky-400/10 dark:bg-sky-400/10 rounded-xl sm:w-auto active:text-opacity-75 hover:bg-transparent  hover:scale-105 transition focus:outline-none">
+            <a *ngIf="!isLoggedIn"  (click)="openDialogLogin()"><button class="block dark:text-sky-400 w-full px-4 py-2.5 text-sm font-bold text-sky-400 bg-sky-400/10 dark:bg-sky-400/10 rounded-xl sm:w-auto active:text-opacity-75 hover:bg-transparent  hover:scale-105 transition focus:outline-none">
                 Log In
               </button>
             </a>
 
         <div class="-mr-2 flex ">
-          <a   href="/Registro"><button class="block dark:text-sky-400 w-full px-4 py-2.5 text-sm font-bold text-sky-400 bg-sky-400/10 dark:bg-sky-400/10 rounded-xl sm:w-auto active:text-opacity-75 hover:bg-transparent  hover:scale-105 transition focus:outline-none">
+          <a *ngIf="!isLoggedIn"   href="/Registro"><button class="block dark:text-sky-400 w-full px-4 py-2.5 text-sm font-bold text-sky-400 bg-sky-400/10 dark:bg-sky-400/10 rounded-xl sm:w-auto active:text-opacity-75 hover:bg-transparent  hover:scale-105 transition focus:outline-none">
             Register
           </button>
         </a>
         </div>
       </div>
 
+
     </div>
 
 
 
-<div  >
+<div  *ngIf="isLoggedIn">
     <div class="w-28  md:block md:w-auto " id="navbar-dropdown" >
       <ul class="flex flex-col font-medium md:p-0 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
           <li>
@@ -55,7 +56,7 @@
                       <!-- Usuario autenticado -->
                       <div>
                           <p class="text-gray-700 block px-4 py-2 text-sm">Holaaa</p>
-                          <button class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Cerrar sesión</button>
+                          <button class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" (click)="logout()">Cerrar sesión</button>
                       </div>
                   </div>
               </div>

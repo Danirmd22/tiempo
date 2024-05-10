@@ -12,9 +12,13 @@ export class AppComponent {
   timeOfDay: string = '';
   localTime: string = '';
   forecastData: any;
+  user: any;
+
 constructor(private http: HttpClient) { }
 
 ngOnInit() {
+  let userItem = localStorage.getItem('user');
+  this.user = userItem ? JSON.parse(userItem) : null;
   navigator.geolocation.getCurrentPosition((position) => {
     this.http.get(`https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=9e12ce681891bbfbbfce1e15fbad0f67&lang=es`)
       .subscribe(data => {
@@ -54,6 +58,10 @@ ngOnInit() {
         console.log(err);
       });
   });
+
+
+
+
 
 
 }

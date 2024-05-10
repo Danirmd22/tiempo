@@ -5,17 +5,21 @@ import { NgModule } from '@angular/core';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
+    LoginComponent
 
 
   ],
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     HeaderComponent,
