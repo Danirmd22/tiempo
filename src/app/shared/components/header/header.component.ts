@@ -4,6 +4,7 @@ import { LoginComponent } from '../login/login.component';
 import { MatDialog } from '@angular/material/dialog';
 import { signOut } from "firebase/auth";
 import { getAuth } from "firebase/auth";
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -15,7 +16,7 @@ export class HeaderComponent  {
   isLoggedIn = false;
   user: any; // define la propiedad 'user' aquí
 
-  constructor(private weatherService: WeatherService,private dialog: MatDialog) { }
+  constructor(private weatherService: WeatherService,private dialog: MatDialog,private router:Router) { }
 
   onSubmit(event: Event): void {
     event.preventDefault();
@@ -31,6 +32,11 @@ export class HeaderComponent  {
     });
   }
 
+
+  register() {
+    this.router.navigate(['/registro']);
+  }
+  
   ngOnInit() {
     this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   }

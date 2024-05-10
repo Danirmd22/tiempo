@@ -18,6 +18,7 @@ import { CardSensacionComponent } from './cards/card-sensacion/card-sensacion.co
 import { CardPronosticosemanalComponent } from './cards/card-pronosticosemanal/card-pronosticosemanal.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LandComponent } from './land/land.component';
 
 registerLocaleData(localeEs, 'es');
 
@@ -30,6 +31,7 @@ registerLocaleData(localeEs, 'es');
       CardPronosticoComponent,
       CardSensacionComponent,
       CardPronosticosemanalComponent,
+      LandComponent,
 
    ],
   imports: [

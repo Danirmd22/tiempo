@@ -1,25 +1,23 @@
 import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  selector: 'app-land',
+  templateUrl: './land.component.html',
+  styleUrl: './land.component.css'
 })
-export class AppComponent {
-  title = 'tiempo';
+export class LandComponent {
   weatherData: any;
   timeOfDay: string = '';
   localTime: string = '';
   forecastData: any;
   user: any;
 
-constructor(private http: HttpClient,public router: Router) { }
+  constructor(private http: HttpClient) { }
 
-ngOnInit() {
-  let userItem = localStorage.getItem('user');
+
+  ngOnInit() {
+
+    let userItem = localStorage.getItem('user');
   this.user = userItem ? JSON.parse(userItem) : null;
   navigator.geolocation.getCurrentPosition((position) => {
     this.http.get(`https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=9e12ce681891bbfbbfce1e15fbad0f67&lang=es`)
@@ -49,18 +47,18 @@ ngOnInit() {
         console.log(err);
       });
   });
-
- 
-
-
-
-
-
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.http.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=9e12ce681891bbfbbfce1e15fbad0f67&lang=es`)
+        .subscribe(data => {
+          this.forecastData = data;
+          console.log(this.forecastData);
+          // ...
+        }, err => {
+          console.log(err);
+        });
+    });
+  }
 
 }
-
-
-}
-
 
 
