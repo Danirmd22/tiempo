@@ -37,4 +37,18 @@ export class WeatherService {
   updateForecastData(forecastData: any): void {
     this.forecastDataSubject.next(forecastData);
   }
+
+
+
+
+  getAutocompleteResults(query: string): Observable<any> {
+    const url = `https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=${query}`;
+    const headers = {
+      'x-rapidapi-host': 'wft-geo-db.p.rapidapi.com',
+      'x-rapidapi-key': 'f96ef93e4fmshb4ce934443014e7p1d6ce3jsnc2cb3cde7937'
+    };
+    return this.http.get(url, {headers});
+  }
 }
+
+

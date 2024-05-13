@@ -5,6 +5,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { signOut } from "firebase/auth";
 import { getAuth } from "firebase/auth";
 import { Router } from '@angular/router';
+import { ChangeDetectorRef } from '@angular/core';
+import { tap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -15,8 +19,10 @@ export class HeaderComponent  {
   forecastData: any;
   isLoggedIn = false;
   user: any; // define la propiedad 'user' aquí
+  citySuggestions: any[] = [];
+  autocompleteResults: any[] = []; // añade esta línea
 
-  constructor(private weatherService: WeatherService,private dialog: MatDialog,private router:Router) { }
+  constructor(private weatherService: WeatherService,private dialog: MatDialog,private router:Router,private http : HttpClient,private changeDetector: ChangeDetectorRef) { }
 
   onSubmit(event: Event): void {
     event.preventDefault();
@@ -36,7 +42,7 @@ export class HeaderComponent  {
   register() {
     this.router.navigate(['/registro']);
   }
-  
+
   ngOnInit() {
     this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   }
@@ -71,6 +77,25 @@ export class HeaderComponent  {
       console.error(error);
     });
   }
+
+
+
+  onBlur() {
+    this.autocompleteResults = [];
+  }
+
+  onInput(event: any) {
+    const query = event.target.value;
+    if (query.length >= 3) {
+      this.weatherService.getAutocompleteResults(query).subscribe(results => {
+        this.autocompleteResults = results.data;
+      });
+    } else {
+      this.autocompleteResults = [];
+    }
+  }
+
+
 
 
 }
