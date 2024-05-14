@@ -26,6 +26,7 @@ export class RegistroComponent {
         this.snackBar.open('Usuario registrado correctamente', 'Cerrar', {
           duration: 2000,
         });
+        this.registerForm.reset();
       })
       .catch((error) => {
         console.error(error);
