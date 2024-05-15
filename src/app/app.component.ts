@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,14 +12,28 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'tiempo';
   weatherData: any;
-  timeOfDay: string = '';
+  timeOfDay: string = 'morning';
   localTime: string = '';
   forecastData: any;
   user: any;
-
-constructor(private http: HttpClient,public router: Router) { }
+  locationPermission: boolean = false;
+  isLoading = true;
+constructor(private http: HttpClient,public router: Router) {
+ }
 
 ngOnInit() {
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      this.locationPermission = true;
+      /*...*/
+    },
+    (err) => {
+      console.log(err);
+      this.locationPermission = false;
+    }
+  );
+
   let userItem = localStorage.getItem('user');
   this.user = userItem ? JSON.parse(userItem) : null;
   navigator.geolocation.getCurrentPosition((position) => {
@@ -44,13 +59,17 @@ ngOnInit() {
           this.timeOfDay = 'night';
           console.log('Night');
         }
+        this.isLoading = false;
+
 
       }, err => {
         console.log(err);
+        this.isLoading = false;
+
       });
   });
 
- 
+
 
 
 

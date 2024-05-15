@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import {  GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { EventEmitter, Output } from '@angular/core';
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
@@ -10,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class RegistroComponent {
   registerForm: FormGroup;
+  @Output() loginSuccess = new EventEmitter<void>();
 
   constructor(private snackBar: MatSnackBar) {
     this.registerForm = new FormGroup({
@@ -29,10 +31,24 @@ export class RegistroComponent {
         this.registerForm.reset();
       })
       .catch((error) => {
+        
+
+      });
+  }
+
+  loginWithGoogle() {
+    const provider = new GoogleAuthProvider();
+    const auth = getAuth();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // El usuario ha iniciado sesión correctamente.
+        localStorage.setItem('user', JSON.stringify(result.user));
+        localStorage.setItem('isLoggedIn', 'true');
+        this.loginSuccess.emit();
+        location.reload();
+      })
+      .catch((error) => {
         console.error(error);
-        this.snackBar.open('Error al registrar el usuario', 'Cerrar', {
-          duration: 2000,
-        });
       });
   }
 }
