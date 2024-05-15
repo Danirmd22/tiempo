@@ -1,9 +1,19 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { trigger, transition, style, animate } from '@angular/animations';
+
 @Component({
   selector: 'app-land',
   templateUrl: './land.component.html',
-  styleUrl: './land.component.css'
+  styleUrl: './land.component.css',
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('1100ms', style({ opacity: 1 })),
+      ]),
+    ]),
+  ],
 })
 export class LandComponent {
   weatherData: any;

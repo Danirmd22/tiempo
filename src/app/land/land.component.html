@@ -1,8 +1,8 @@
 
 
 
-<app-card-weather [weatherData]="weatherData" ></app-card-weather>
-<app-card-pronostico [weatherData]="weatherData" [forecastData]="forecastData"></app-card-pronostico>
-<app-card-sensacion [weatherData]="weatherData"></app-card-sensacion>
-<app-card-pronosticosemanal [forecastData]="forecastData"></app-card-pronosticosemanal>
+<app-card-weather [weatherData]="weatherData" @fadeIn></app-card-weather>
+<app-card-pronostico [weatherData]="weatherData" [forecastData]="forecastData" @fadeIn></app-card-pronostico>
+<app-card-sensacion [weatherData]="weatherData"@fadeIn></app-card-sensacion>
+<app-card-pronosticosemanal [forecastData]="forecastData"@fadeIn></app-card-pronosticosemanal>
 
