@@ -2,7 +2,8 @@
   <div class="w-full mt-2 flex flex-wrap justify-center gap-x-4">
     <div class="w-11/12 lg:w-6/12">
       <div class="backdrop-blur-lg rounded-lg shadow-md flex justify-center items-center flex-wrap dark:bg-slate-800/50 bg-slate-300/20">
-        <h2 class="block w-full bg-black/30 rounded-t-lg p-2 text-white font-semibold text-lg text-shadow">{{ weatherData?.name }}, {{ weatherData?.sys.country }}<span class="text-sm text-shadow"></span></h2>
+        <h2 class="block w-full bg-black/30 rounded-t-lg p-2 text-white font-semibold text-lg text-shadow">{{ weatherData?.name }}, {{ weatherData?.sys.country }}<button (click)="onSaveConfiguration()" class="float-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-white font-bold bg-blue-600 py-2 px-3 text-sm rounded-3xl hover:shadow-md hover:shadow-blue-600/40" *ngIf="isLoggedIn" >
+          Guardar ubicación +</button></h2>
         <div class="w-4/5 py-3 px-4">
           <h2 class="text-white font-semibold text-shadow lg:text-8xl text-6xl">{{ (weatherData?.main.temp - 273.15).toFixed(0) }}º</h2>
           <h2 class="first-letter:uppercase font-bold text-2xl text-shadow text-white">{{ weatherData?.weather[0]?.description }}</h2>

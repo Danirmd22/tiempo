@@ -16,6 +16,8 @@ export class CardWeatherComponent {
   url = 'https://openweathermap.org/img/wn/';
   iconUrl = '';
   // ... declara las demás variables aquí ...
+  isLoggedIn: boolean = false;
+  city: string = "" // Agrega esta línea
 
   days = [
     'Domingo',
@@ -31,6 +33,10 @@ export class CardWeatherComponent {
 
 
   ngOnInit(): void {
+
+
+    this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
     this.weatherService.weatherData$.subscribe(data => {
       this.weatherData = data;
       if (this.weatherData && this.weatherData.weather && this.weatherData.weather[0]) {
@@ -47,5 +53,11 @@ export class CardWeatherComponent {
         this.iconUrl = this.url + this.weatherData.weather[0].icon + '@4x.png';
       }
     }
+  }
+
+  // En tu componente
+  onSaveConfiguration() {
+    // Guarda la ciudad actual en Firestore
+    this.weatherService.saveCity(this.city);
   }
 }

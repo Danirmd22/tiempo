@@ -4,6 +4,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {  GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { EventEmitter, Output } from '@angular/core';
+import { getFirestore, doc, setDoc } from "firebase/firestore";
+
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
@@ -23,18 +25,25 @@ export class RegistroComponent {
   register() {
     const auth = getAuth();
     createUserWithEmailAndPassword(auth, this.registerForm.value.email, this.registerForm.value.password)
-      .then((userCredential) => {
-        // El usuario se ha registrado correctamente.
-        this.snackBar.open('Usuario registrado correctamente', 'Cerrar', {
-          duration: 2000,
-        });
-        this.registerForm.reset();
-      })
-      .catch((error) => {
-        
-
+    .then((userCredential) => {
+      // El usuario se ha registrado correctamente.
+      this.snackBar.open('Usuario registrado correctamente', 'Cerrar', {
+        duration: 2000,
       });
-  }
+      this.registerForm.reset();
+
+      // Añade los detalles del usuario a Firestore.
+      const db = getFirestore();
+      return setDoc(doc(db, "usuarios", userCredential.user.uid), {
+        email: userCredential.user.email,
+        // Añade aquí cualquier otro detalle que quieras guardar.
+      });
+    })
+    .catch((error) => {
+      // Maneja el error aquí.
+      console.error("Error al crear el usuario: ", error);
+    });
+}
 
   loginWithGoogle() {
     const provider = new GoogleAuthProvider();

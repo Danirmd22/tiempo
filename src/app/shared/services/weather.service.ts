@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
+import { getFirestore, doc, setDoc } from "firebase/firestore";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,6 +13,7 @@ import { BehaviorSubject } from 'rxjs';
 export class WeatherService {
   private weatherDataSubject = new BehaviorSubject<any>(null);
   private forecastDataSubject = new BehaviorSubject<any>(null);
+  private db = getFirestore();
 
   weatherData$ = this.weatherDataSubject.asObservable();
   forecastData$ = this.forecastDataSubject.asObservable();
@@ -51,6 +54,22 @@ export class WeatherService {
       'x-rapidapi-key': 'f96ef93e4fmshb4ce934443014e7p1d6ce3jsnc2cb3cde7937'
     };
     return this.http.get(url, {headers});
+  }
+
+  async saveCity(city: string) {
+    try {
+      if (!city) {
+        throw new Error('El nombre de la ciudad no puede ser nulo o indefinido');
+      }
+
+      // Crea una referencia a un documento en la colección "ubicaciones"
+      const docRef = doc(this.db, "ubicaciones", city);
+
+      // Guarda la ciudad en Firestore
+      await setDoc(docRef, { name: city });
+    } catch (e) {
+      console.error("Error al guardar la ciudad: ", e);
+    }
   }
 }
 
