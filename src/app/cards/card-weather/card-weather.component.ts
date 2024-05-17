@@ -9,7 +9,8 @@ import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { setDoc } from 'firebase/firestore';
 import { doc } from "firebase/firestore";
-
+import { getDoc } from 'firebase/firestore';
+import { updateDoc, arrayUnion } from "firebase/firestore";
 @Component({
   selector: 'app-card-weather',
   templateUrl: './card-weather.component.html',
@@ -69,11 +70,32 @@ export class CardWeatherComponent {
     const userId = user?.uid;
 
     const db = getFirestore();
-    await setDoc(doc(db, "users", userId), {
-      name: this.weatherData?.name,
-      location: {
-        latitude: this.weatherData?.coord.lat,
-        longitude: this.weatherData?.coord.lon
-      }
-    }, { merge: true });
-  }}
+    const userDoc = doc(db, "users", userId);
+
+    // Obtén el documento actual
+    const docSnapshot = await getDoc(userDoc);
+
+    if (docSnapshot.exists()) {
+      // Si el documento existe, añade la nueva ubicación a la matriz existente
+      await updateDoc(userDoc, {
+
+        locations: arrayUnion({
+          name: this.weatherData?.name,
+          latitude: this.weatherData?.coord.lat,
+          longitude: this.weatherData?.coord.lon
+        })
+      });
+    } else {
+      // Si el documento no existe, crea uno nuevo
+      await setDoc(userDoc, {
+
+        locations: [{
+          name: this.weatherData?.name,
+          latitude: this.weatherData?.coord.lat,
+          longitude: this.weatherData?.coord.lon
+        }]
+      });
+    }
+  }
+
+}
