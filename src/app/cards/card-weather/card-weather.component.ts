@@ -5,6 +5,11 @@ import { ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SimpleChanges } from '@angular/core';
 import { WeatherService } from '../../shared/services/weather.service';
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { setDoc } from 'firebase/firestore';
+import { doc } from "firebase/firestore";
+
 @Component({
   selector: 'app-card-weather',
   templateUrl: './card-weather.component.html',
@@ -15,9 +20,11 @@ export class CardWeatherComponent {
   @Input() showData: boolean = true;
   url = 'https://openweathermap.org/img/wn/';
   iconUrl = '';
-  // ... declara las demás variables aquí ...
+  location: {name: string, latitude: number, longitude: number} = {name: '', latitude: 0, longitude: 0};
+
   isLoggedIn: boolean = false;
   city: string = "" // Agrega esta línea
+  // Agrega esta línea;
 
   days = [
     'Domingo',
@@ -29,7 +36,8 @@ export class CardWeatherComponent {
     'Sábado',
   ];
 
-  constructor(private cdr: ChangeDetectorRef,private http: HttpClient,private weatherService: WeatherService) {}
+  constructor(private cdr: ChangeDetectorRef,private http: HttpClient,private weatherService: WeatherService) {
+     }
 
 
   ngOnInit(): void {
@@ -55,9 +63,17 @@ export class CardWeatherComponent {
     }
   }
 
-  // En tu componente
-  onSaveConfiguration() {
-    // Guarda la ciudad actual en Firestore
-    this.weatherService.saveCity(this.city);
-  }
-}
+
+  async saveLocation(location: {name: string, latitude: number, longitude: number}) {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const userId = user?.uid;
+
+    const db = getFirestore();
+    await setDoc(doc(db, "users", userId), {
+      name: this.weatherData?.name,
+      location: {
+        latitude: this.weatherData?.coord.lat,
+        longitude: this.weatherData?.coord.lon
+      }
+    }, { merge: true });
+  }}

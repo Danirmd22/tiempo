@@ -45,19 +45,28 @@ export class RegistroComponent {
     });
 }
 
-  loginWithGoogle() {
-    const provider = new GoogleAuthProvider();
-    const auth = getAuth();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // El usuario ha iniciado sesión correctamente.
-        localStorage.setItem('user', JSON.stringify(result.user));
-        localStorage.setItem('isLoggedIn', 'true');
-        this.loginSuccess.emit();
-        location.reload();
-      })
-      .catch((error) => {
-        console.error(error);
+loginWithGoogle() {
+  const provider = new GoogleAuthProvider();
+  const auth = getAuth();
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      // El usuario ha iniciado sesión correctamente.
+      localStorage.setItem('user', JSON.stringify(result.user));
+      localStorage.setItem('isLoggedIn', 'true');
+      this.loginSuccess.emit();
+      this.snackBar.open('Usuario registrado correctamente', 'Cerrar', {
+        duration: 2000,
       });
-  }
+
+      // Añade los detalles del usuario a Firestore.
+      const db = getFirestore();
+      return setDoc(doc(db, "usuarios", result.user.uid), {
+        email: result.user.email,
+        // Añade aquí cualquier otro detalle que quieras guardar.
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
 }

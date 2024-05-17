@@ -56,21 +56,9 @@ export class WeatherService {
     return this.http.get(url, {headers});
   }
 
-  async saveCity(city: string) {
-    try {
-      if (!city) {
-        throw new Error('El nombre de la ciudad no puede ser nulo o indefinido');
-      }
+  // En tu servicio WeatherService
+// En tu servicio WeatherService
 
-      // Crea una referencia a un documento en la colección "ubicaciones"
-      const docRef = doc(this.db, "ubicaciones", city);
-
-      // Guarda la ciudad en Firestore
-      await setDoc(docRef, { name: city });
-    } catch (e) {
-      console.error("Error al guardar la ciudad: ", e);
-    }
-  }
 }
 
 
