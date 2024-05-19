@@ -19,7 +19,7 @@ import { CardPronosticosemanalComponent } from './cards/card-pronosticosemanal/c
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LandComponent } from './land/land.component';
-import { MapaComponent } from './shared/components/mapa/mapa.component';
+
 
 registerLocaleData(localeEs, 'es');
 
@@ -33,7 +33,7 @@ registerLocaleData(localeEs, 'es');
       CardSensacionComponent,
       CardPronosticosemanalComponent,
       LandComponent,
-      MapaComponent,
+      
 
    ],
   imports: [
