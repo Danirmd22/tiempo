@@ -14,16 +14,16 @@ export class MapaComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initMap();
+
   }
 
   private initMap(): void {
     this.map = L.map('map');
 
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.map.setView([position.coords.latitude, position.coords.longitude], 13);
-    });
+    // Establece la vista para mostrar todo el mundo
+    this.map.setView([0, 0], 2);
 
-    this.setLayer('standard');
+    
   }
 
   public setLayer(layer: string): void {
@@ -31,13 +31,13 @@ export class MapaComponent implements AfterViewInit {
 
     switch (layer) {
       case 'temperature':
-        url = 'https://{s}.tile.openweathermap.org/map/temp/{z}/{x}/{y}.png';
+        url = 'https://{s}.tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=9e12ce681891bbfbbfce1e15fbad0f67';
         break;
       case 'precipitation':
-        url = 'https://{s}.tile.openweathermap.org/map/precipitation/{z}/{x}/{y}.png';
+        url = 'https://{s}.tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=9e12ce681891bbfbbfce1e15fbad0f67';
         break;
       case 'clouds':
-        url = 'https://{s}.tile.openweathermap.org/map/clouds/{z}/{x}/{y}.png';
+        url = 'https://{s}.tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=9e12ce681891bbfbbfce1e15fbad0f67';
         break;
       default:
         url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -49,7 +49,7 @@ export class MapaComponent implements AfterViewInit {
       this.map.removeLayer(this.currentLayer);
     }
 
-    const newLayer = L.tileLayer(url, {
+    const newLayer = new L.TileLayer(url, {
       maxZoom: 19,
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
         '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -60,7 +60,13 @@ export class MapaComponent implements AfterViewInit {
       accessToken: '9e12ce681891bbfbbfce1e15fbad0f67'
     });
 
+    // Agrega el nuevo layer al mapa
     newLayer.addTo(this.map);
+
+    // Actualiza el mapa para asegurarse de que se muestren los cambios
+    this.map.invalidateSize();
+
+    // Almacena la referencia al nuevo layer
     this.currentLayer = newLayer;
   }
 }
