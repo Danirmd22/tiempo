@@ -84,7 +84,9 @@ export class CardWeatherComponent {
           latitude: this.weatherData?.coord.lat,
           longitude: this.weatherData?.coord.lon
         })
+
       });
+
     } else {
       // Si el documento no existe, crea uno nuevo
       await setDoc(userDoc, {
@@ -95,6 +97,8 @@ export class CardWeatherComponent {
           longitude: this.weatherData?.coord.lon
         }]
       });
+
+
     }
   }
 

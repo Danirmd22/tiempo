@@ -35,6 +35,8 @@ export class WeatherService {
   getCityForecast(city: string): Observable<any> {
     return this.http.get(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${this.API_KEY}&lang=es`);
     this.isLoading = false;
+
+
   }
 
 

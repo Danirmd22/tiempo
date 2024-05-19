@@ -9,6 +9,9 @@ import { ChangeDetectorRef } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { collection } from 'firebase/firestore';
+import { getDocs } from 'firebase/firestore';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -21,6 +24,8 @@ export class HeaderComponent  {
   user: any; // define la propiedad 'user' aquí
   citySuggestions: any[] = [];
   autocompleteResults: any[] = []; // añade esta línea
+  locations: any[] = []; // Añade esta línea para definir la propiedad 'locations'
+
 
   constructor(private weatherService: WeatherService,private dialog: MatDialog,private router:Router,private http : HttpClient,private changeDetector: ChangeDetectorRef) { }
 
@@ -43,8 +48,26 @@ export class HeaderComponent  {
     this.router.navigate(['/registro']);
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+
     this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const userId = user?.uid;
+
+  const db = getFirestore();
+  const userDoc = doc(db, "users", userId);
+
+  // Obtén el documento actual
+  const docSnapshot = await getDoc(userDoc);
+
+  if (docSnapshot.exists()) {
+    // Si el documento existe, obtén las ubicaciones
+    this.locations = docSnapshot.data()['locations'];
+  }
+
+
   }
 
   openDialogLogin() {
@@ -65,6 +88,8 @@ export class HeaderComponent  {
   onLoginSuccess() {
     this.isLoggedIn = true;
   }
+
+
 
   logout() {
     const auth = getAuth();
@@ -94,6 +119,7 @@ export class HeaderComponent  {
       this.autocompleteResults = [];
     }
   }
+
 
 
 
