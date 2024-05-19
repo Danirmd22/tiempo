@@ -27,6 +27,7 @@ export class HeaderComponent  {
   locations: any[] = []; // Añade esta línea para definir la propiedad 'locations'
 
 
+
   constructor(private weatherService: WeatherService,private dialog: MatDialog,private router:Router,private http : HttpClient,private changeDetector: ChangeDetectorRef) { }
 
   onSubmit(event: Event): void {
@@ -109,19 +110,21 @@ export class HeaderComponent  {
     this.autocompleteResults = [];
   }
 
-  onInput(event: any) {
-    const query = event.target.value;
-    if (query.length >= 3) {
-      this.weatherService.getAutocompleteResults(query).subscribe(results => {
-        this.autocompleteResults = results.data;
+  onSearchChange(searchValue: string): void {
+    if (searchValue.length >= 3) {
+      this.weatherService.getCitySuggestions(searchValue).subscribe(suggestions => {
+        this.citySuggestions = suggestions;
+        this.autocompleteResults = suggestions;
       });
     } else {
+      this.citySuggestions = [];
       this.autocompleteResults = [];
     }
+  }
   }
 
 
 
 
 
-}
+

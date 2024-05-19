@@ -47,20 +47,13 @@ export class WeatherService {
   }
 
 
-
-
-  getAutocompleteResults(query: string): Observable<any> {
-    const url = `https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=${query}`;
-    const headers = {
-      'x-rapidapi-host': 'wft-geo-db.p.rapidapi.com',
-      'x-rapidapi-key': 'f96ef93e4fmshb4ce934443014e7p1d6ce3jsnc2cb3cde7937'
-    };
-    return this.http.get(url, {headers});
+  getCitySuggestions(city: string): Observable<any> {
+    return this.http.get(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${this.API_KEY}`);
   }
 
-  // En tu servicio WeatherService
-// En tu servicio WeatherService
 
+
+ 
 }
 
 

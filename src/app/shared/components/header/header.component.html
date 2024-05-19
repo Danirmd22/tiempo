@@ -7,17 +7,21 @@
           <div class="hidden md:hidden lg:block w-3/5">
             <div class="flex items-center justify-center">
               <form (ngSubmit)="onSubmit($event)">
-                <input [(ngModel)]="city" (input)="onInput($event)" (blur)="onBlur()" [ngModelOptions]="{standalone: true}" type="text" class="items-center w-72 text-left space-x-3 px-4 h-11 bg-white ring-1 ring-slate-900/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-l-lg text-slate-400 dark:bg-slate-800 dark:ring-0 dark:text-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700 font-medium" placeholder="Buscar ciudad" />
-                <div class="absolute bg-white mt-1 rounded-md shadow-lg">
-                  <ul class="max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-item-3">
-                    <li class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9" *ngFor="let result of autocompleteResults">
-                      {{result.city}}
-                    </li>
-                  </ul>
-                </div>
+                <input [(ngModel)]="city" (input)="onSearchChange(city)" (blur)="onBlur()" [ngModelOptions]="{standalone: true}" type="text" class="items-center w-72 text-left space-x-3 px-4 h-11 bg-white ring-1 ring-slate-900/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-l-lg text-slate-400 dark:bg-slate-800 dark:ring-0 dark:text-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700 font-medium" placeholder="Buscar ciudad" />
+
+
+
+
                 <button type="submit" class="px-5 h-11 bg-sky-400 text-white ring-1 ring-slate-900/10 hover:ring-slate-300 font-medium focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-r-lg dark:ring-0 dark:text-white dark:highlight-white/5 dark:hover:bg-slate-700 dark:bg-sky-400">
                     Buscar
                 </button>
+                <div class="absolute bg-white mt-1 rounded-md shadow-lg">
+                  <ul class="max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-item-3">
+                    <li class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9" *ngFor="let suggestion of citySuggestions">
+                      <button (click)="searchForecast(suggestion.name)">{{ suggestion.name }}</button>
+                    </li>
+                  </ul>
+                </div>
             </form>
 
             </div>
@@ -80,7 +84,7 @@
 </form>
 
 <div class="flex space-x-2 pt-3 pb-3">
-  <button class="ring-2 ring-blue-500 bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-2 gap-3 rounded-full" *ngFor="let location of locations">
+  <button (click)="searchForecast(location.name)" class="ring-2 ring-blue-500 bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-2 gap-3 rounded-full" *ngFor="let location of locations">
     {{location.name}}
   </button>
 </div>
