@@ -48,12 +48,12 @@ export class WeatherService {
 
 
   getCitySuggestions(city: string): Observable<any> {
-    return this.http.get(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${this.API_KEY}`);
+    return this.http.get(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${this.API_KEY}`);
   }
 
 
 
- 
+
 }
 
 
