@@ -45,6 +45,11 @@ export class HeaderComponent  {
   }
 
 
+
+  actBoton(locationName: string) {
+    this.weatherService.updateWeatherAndForecast(locationName);
+  }
+
   register() {
     this.router.navigate(['/registro']);
   }

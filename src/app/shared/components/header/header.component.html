@@ -93,7 +93,7 @@
 </form>
 
 <div class="flex space-x-2 pt-3 pb-3">
-  <button (click)="searchForecast(location.name)" class="ring-2 ring-blue-500 bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-2 gap-3 rounded-full" *ngFor="let location of locations">
+  <button (click)="actBoton(location.name)" class="ring-2 ring-blue-500 bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-2 gap-3 rounded-full" *ngFor="let location of locations">
     {{location.name}}
   </button>
 </div>

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { getFirestore, doc, setDoc } from "firebase/firestore";
-
+import { tap } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -40,7 +40,18 @@ export class WeatherService {
   }
 
 
-  // ...
+  getCityWeather2(city: string): Observable<any> {
+    return this.http.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.API_KEY}&lang=es`).pipe(
+      tap(data => {
+        this.weatherDataSubject.next(data);
+        this.isLoading = false;
+        console.log("Prueba1");
+        console.log(data);
+      })
+    );
+  }
+
+
 
   updateForecastData(forecastData: any): void {
     this.forecastDataSubject.next(forecastData);
@@ -52,7 +63,14 @@ export class WeatherService {
   }
 
 
-
+  updateWeatherAndForecast(locationName: string) {
+    this.getCityWeather2(locationName).subscribe(weatherData => {
+      this.weatherDataSubject.next(weatherData);
+    });
+    this.getCityForecast(locationName).subscribe(forecastData => {
+      this.forecastDataSubject.next(forecastData);
+    });
+  }
 
 }
 
