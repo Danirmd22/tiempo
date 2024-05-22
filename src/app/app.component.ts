@@ -40,6 +40,7 @@ ngOnInit() {
     this.http.get(`https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=9e12ce681891bbfbbfce1e15fbad0f67&lang=es`)
       .subscribe(data => {
         this.weatherData = data;
+        localStorage.setItem('city', this.weatherData.name.toLowerCase());
         const now = new Date();
         const localOffset = now.getTimezoneOffset() * 60;
         const utc = now.getTime() / 1000 + localOffset;

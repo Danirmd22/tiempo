@@ -16,6 +16,10 @@ export class WeatherService {
   private weatherDataSubject = new BehaviorSubject<any>(null);
   private forecastDataSubject = new BehaviorSubject<any>(null);
   private db = getFirestore();
+  alertForCity: string = '';
+
+  showAlert: boolean = false;
+  alertMessage: string = '';
 
   weatherData$ = this.weatherDataSubject.asObservable();
   forecastData$ = this.forecastDataSubject.asObservable();
@@ -25,9 +29,11 @@ export class WeatherService {
   constructor(private http: HttpClient) { }
 
   getCityWeather(city: string): void {
-    this.http.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.API_KEY}&lang=es`).subscribe(async data => {
+    this.http.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.API_KEY}&lang=es`).subscribe(async (data: any) => {
       this.weatherDataSubject.next(data);
+
       this.isLoading = false;
+      localStorage.setItem('city', data.name.toLowerCase());
 
       console.log("Prueba1");
       console.log(data);
@@ -36,13 +42,16 @@ export class WeatherService {
       const alerts = await this.getAlerts();
       console.log('Alertas obtenidas de la base de datos:', alerts);
 
-      // Verifica si la ciudad buscada coincide con alguna de las ciudades en las alertas
-      const alertForCity = alerts.find(alert => alert['city'] && alert['city'].toLowerCase() === city.toLowerCase());
+      // Obtiene la ciudad almacenada en localStorage
+      const storedCity = localStorage.getItem('city');
+
+      // Verifica si la ciudad almacenada coincide con alguna de las ciudades en las alertas
+      const alertForCity = alerts.find(alert => alert['City'] && alert['City'].toLowerCase() === storedCity?.toLowerCase());
       console.log('Alerta para la ciudad:', alertForCity);
 
       if (alertForCity) {
-        // Si hay una alerta para la ciudad, muestra la alerta
-        alert(`Alerta para ${city}: ${alertForCity['message']}`);
+
+
       }
     });
   }
@@ -54,6 +63,7 @@ export class WeatherService {
 
   }
 
+  
 
   getCityWeather2(city: string): Observable<any> {
     return this.http.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.API_KEY}&lang=es`).pipe(
