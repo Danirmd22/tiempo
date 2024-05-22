@@ -51,6 +51,7 @@ export class WeatherService {
 
       if (alertForCity) {
 
+        alert('Alerta para la ciudad de ' + storedCity + ': ' + alertForCity['Message']);
 
       }
     });
@@ -63,7 +64,7 @@ export class WeatherService {
 
   }
 
-  
+
 
   getCityWeather2(city: string): Observable<any> {
     return this.http.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.API_KEY}&lang=es`).pipe(
