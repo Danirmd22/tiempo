@@ -24,16 +24,18 @@ export class WeatherService {
 
   weatherData$ = this.weatherDataSubject.asObservable();
   forecastData$ = this.forecastDataSubject.asObservable();
-  isLoading = true;
+  isLoading = false;
   private API_KEY = '9e12ce681891bbfbbfce1e15fbad0f67';
 
   constructor(private http: HttpClient,private dialog: MatDialog) { }
 
   getCityWeather(city: string): void {
+    this.isLoading = true;
+
     this.http.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.API_KEY}&lang=es`).subscribe(async (data: any) => {
       this.weatherDataSubject.next(data);
 
-      this.isLoading = false;
+
       localStorage.setItem('city', data.name.toLowerCase());
 
       console.log("Prueba1");
@@ -67,6 +69,7 @@ export class WeatherService {
         });
       }
     });
+    this.isLoading = false;
   }
 
   getCityForecast(city: string): Observable<any> {

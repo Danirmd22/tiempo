@@ -17,11 +17,12 @@ export class AppComponent {
   forecastData: any;
   user: any;
   locationPermission: boolean = false;
-  isLoading = true;
+  isLoading = false;
 constructor(private http: HttpClient,public router: Router) {
  }
 
 ngOnInit() {
+  this.isLoading = true;
 
   navigator.geolocation.getCurrentPosition(
     (position) => {
