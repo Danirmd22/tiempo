@@ -5,7 +5,8 @@ import { BehaviorSubject } from 'rxjs';
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { tap } from 'rxjs';
 import { collection, getDocs } from "firebase/firestore";
-
+import { AlertComponent } from '../components/alert/alert.component';
+import { MatDialog } from '@angular/material/dialog';
 @Injectable({
   providedIn: 'root'
 })
@@ -26,7 +27,7 @@ export class WeatherService {
   isLoading = true;
   private API_KEY = '9e12ce681891bbfbbfce1e15fbad0f67';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private dialog: MatDialog) { }
 
   getCityWeather(city: string): void {
     this.http.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.API_KEY}&lang=es`).subscribe(async (data: any) => {
@@ -50,9 +51,20 @@ export class WeatherService {
       console.log('Alerta para la ciudad:', alertForCity);
 
       if (alertForCity) {
+        console.log('Ciudad de la alerta:', alertForCity['City']);
 
-        alert('Alerta para la ciudad de ' + storedCity + ': ' + alertForCity['Message']);
-
+        this.dialog.open(AlertComponent, {
+          data: {
+            message: {
+              title: '¡Alerta!',
+              city: alertForCity['City'],
+              alert: alertForCity['Nombre']
+            },
+            buttonText: {
+              cancel: 'Cerrar'
+            }
+          },
+        });
       }
     });
   }
@@ -68,11 +80,41 @@ export class WeatherService {
 
   getCityWeather2(city: string): Observable<any> {
     return this.http.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.API_KEY}&lang=es`).pipe(
-      tap(data => {
+      tap(async (data: any) => {
         this.weatherDataSubject.next(data);
         this.isLoading = false;
+        localStorage.setItem('city', data.name.toLowerCase());
+
         console.log("Prueba1");
         console.log(data);
+
+        // Obtén las alertas
+        const alerts = await this.getAlerts();
+        console.log('Alertas obtenidas de la base de datos:', alerts);
+
+        // Obtiene la ciudad almacenada en localStorage
+        const storedCity = localStorage.getItem('city');
+
+        // Verifica si la ciudad almacenada coincide con alguna de las ciudades en las alertas
+        const alertForCity = alerts.find(alert => alert['City'] && alert['City'].toLowerCase() === storedCity?.toLowerCase());
+        console.log('Alerta para la ciudad:', alertForCity);
+
+        if (alertForCity) {
+          console.log('Ciudad de la alerta:', alertForCity['City']);
+
+          this.dialog.open(AlertComponent, {
+            data: {
+              message: {
+                title: '¡Alerta!',
+                city: alertForCity['City'],
+                alert: alertForCity['Nombre']
+              },
+              buttonText: {
+                cancel: 'Cerrar'
+              }
+            },
+          });
+        }
       })
     );
   }
