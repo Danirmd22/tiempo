@@ -1,105 +1,90 @@
 <div class="animate__animated animate__fadeInDown sticky top-0 z-50 m-auto w-full bg-slate-900">
-  <nav class="">
-    <div class="mx-auto px-4 sm:px-6 lg:px-8 w-full md:w-full xl:w-4/5 bg-slate-900 py-2">
+  <nav>
+    <div class="mx-auto px-4 sm:px-6 lg:px-8 w-full xl:w-4/5 bg-slate-900 py-2">
       <div class="flex items-center h-16">
-        <div class="flex w-full justify-between items-center">
-          <a href="/"><img src="/assets/images/climanow.png"   alt="" class="ml-4 sm:ml-0 w-32 lg:w-40 lg:ml-0 -ml-5" /></a>
+        <div class="flex w-full items-center justify-between">
+          <a href="/"><img src="/assets/images/climanow.png" alt="" class="ml-4 m-4 sm:ml-0 w-32 lg:w-40 lg:ml-0" /></a>
 
-          <a href="/mapa">
-            <button class="block dark:text-sky-400 w-full px-4 py-2.5 text-sm font-bold text-sky-400 bg-sky-400/10 dark:bg-sky-400/10 rounded-xl sm:w-auto active:text-opacity-75 hover:bg-transparent  hover:scale-105 transition focus:outline-none">
-             Ver Mapa
+          <a href="/mapa" class="lg:inline-block hidden">
+            <button class="px-3 py-2 text-sm font-bold text-sky-400 bg-sky-400/10 dark:bg-sky-400/10 rounded-xl active:text-opacity-75 hover:bg-transparent hover:scale-105 transition focus:outline-none">
+              Ver Mapa
             </button>
           </a>
 
-          <div class="hidden md:hidden lg:block w-3/5">
-            <div class="flex items-center justify-center">
-              <form (ngSubmit)="onSubmit($event)">
-                <input [(ngModel)]="city" (input)="onSearchChange(city)" (blur)="onBlur()" [ngModelOptions]="{standalone: true}" type="text" class="items-center w-72 text-left space-x-3 px-4 h-11 bg-white ring-1 ring-slate-900/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-l-lg text-slate-400 dark:bg-slate-800 dark:ring-0 dark:text-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700 font-medium" placeholder="Buscar ciudad" />
 
+          <div class="hidden lg:flex lg:w-3/5 justify-center relative right-4"> <!-- Agrega la clase right-4 -->
+            <form (ngSubmit)="onSubmit($event)" class="flex items-center">
+              <input [(ngModel)]="city" (input)="onSearchChange(city)" (blur)="onBlur()" [ngModelOptions]="{standalone: true}" type="text" class="w-72 h-11 px-4 bg-white ring-1 ring-slate-900/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-l-lg text-slate-400 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 font-medium" placeholder="Buscar ciudad" />
+              <button type="submit" class="px-5 h-11 bg-sky-400 text-white ring-1 ring-slate-900/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-r-lg dark:hover:bg-slate-700">
+                Buscar
+              </button>
 
-
-
-                <button type="submit" class="px-5 h-11 bg-sky-400 text-white ring-1 ring-slate-900/10 hover:ring-slate-300 font-medium focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-r-lg dark:ring-0 dark:text-white dark:highlight-white/5 dark:hover:bg-slate-700 dark:bg-sky-400">
-                    Buscar
-                </button>
-                <div class="absolute bg-white mt-1 rounded-md shadow-lg">
-                  <ul class="max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-item-3">
-                    <li class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:bg-gray-200" *ngFor="let suggestion of citySuggestions">
-                      <button (click)="searchForecast(suggestion.name)">{{ suggestion.name }}</button>
-                    </li>
-                  </ul>
-                </div>
-
-
+              <!-- Autocompletado -->
+              <div class="absolute top-full  mt-1 bg-white rounded-md shadow-lg w-72 z-10" *ngIf="citySuggestions.length > 0"> <!-- Agrega *ngIf -->
+                <ul class="max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-item-3">
+                  <li class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:bg-gray-200" *ngFor="let suggestion of citySuggestions">
+                    <button (click)="searchForecast(suggestion.name)">{{ suggestion.name }}</button>
+                  </li>
+                </ul>
+              </div>
             </form>
-
-            </div>
           </div>
 
-          <div class="flex items-center w-1/5 gap-3 justify-center">
-            <a *ngIf="!isLoggedIn"  (click)="openDialogLogin()"><button class="block dark:text-sky-400 w-full px-4 py-2.5 text-sm font-bold text-sky-400 bg-sky-400/10 dark:bg-sky-400/10 rounded-xl sm:w-auto active:text-opacity-75 hover:bg-transparent  hover:scale-105 transition focus:outline-none">
+
+
+
+
+          <div class="flex items-center gap-3">
+            <a *ngIf="!isLoggedIn" (click)="openDialogLogin()">
+              <button class="px-4 py-2.5 text-sm font-bold text-sky-400 bg-sky-400/10 dark:bg-sky-400/10 rounded-xl active:text-opacity-75 hover:bg-transparent hover:scale-105 transition focus:outline-none">
                 Log In
               </button>
             </a>
 
-        <div class="-mr-2 flex " routerLink="/registro">
-          <a *ngIf="!isLoggedIn"  ><button (click)="register()" class="block dark:text-sky-400 w-full px-4 py-2.5 text-sm font-bold text-sky-400 bg-sky-400/10 dark:bg-sky-400/10 rounded-xl sm:w-auto active:text-opacity-75 hover:bg-transparent  hover:scale-105 transition focus:outline-none">
-            Register
-          </button>
-        </a>
+            <a *ngIf="!isLoggedIn" routerLink="/registro">
+              <button (click)="register()" class="px-4 py-2.5 text-sm font-bold text-sky-400 bg-sky-400/10 dark:bg-sky-400/10 rounded-xl active:text-opacity-75 hover:bg-transparent hover:scale-105 transition focus:outline-none">
+                Register
+              </button>
+            </a>
+
+            <div *ngIf="isLoggedIn" class="relative">
+              <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between px-3 py-2 text-gray-300 rounded md:hover:bg-transparent md:border-0 md:hover:text-[#5eead4] dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+                <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+                </svg>
+              </button>
+              <div id="dropdownNavbar" class="hidden absolute right-0 z-10 mt-2 w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="dropdownLargeButton" tabindex="-1">
+                <div class="py-1">
+                  <p class="text-gray-700 block px-4 py-2 text-sm">Holaaa</p>
+                  <button class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" (click)="logout()">Cerrar sesión</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-
-
     </div>
 
+    <form (ngSubmit)="onSubmit($event)" class="flex justify-center py-3 lg:hidden bg-slate-800/40">
+      <input [(ngModel)]="city" (input)="onSearchChange(city)" [ngModelOptions]="{standalone: true}" type="text" class="w-2/5 h-11 px-4 bg-white ring-1 ring-slate-900/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-l-lg text-slate-400 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 font-medium" placeholder="Buscar ciudad" />
+      <button type="submit" class="px-5 h-11 bg-sky-400 text-white ring-1 ring-slate-900/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-r-lg dark:hover:bg-slate-700">
+        Buscar
+      </button>
+      <a href="/mapa" class="inline-block ml-4">
+        <button class="px-3 py-2 text-sm font-bold text-sky-400 bg-sky-400/10 dark:bg-sky-400/10 rounded-xl active:text-opacity-75 hover:bg-transparent hover:scale-105 transition focus:outline-none h-11">
+          Ver Mapa
+        </button>
+      </a>
+    </form>
 
-
-
-<div  *ngIf="isLoggedIn">
-    <div class="w-28  md:block md:w-auto " id="navbar-dropdown" >
-      <ul class="flex flex-col font-medium md:p-0 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
-          <li>
-              <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar"
-                  class="flex items-center justify-between w-auto py-2 px-3 text-gray-300 rounded  p-0 md:hover:bg-transparent md:border-0 md:hover:text-[#5eead4] md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
-                  <!-- Logo perfil -->
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                  </svg>
-                  <!-- Flecha Dropdown -->
-                  <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
-                  </svg>
-              </button>
-              <!-- Dropdown menu -->
-              <div id="dropdownNavbar" class="absolute hidden right-0 z-10 mt-z w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="dropdownLargeButton" tabindex="-1">
-                  <div class="py-1" role="none">
-                      <!-- Usuario autenticado -->
-                      <div>
-                          <p class="text-gray-700 block px-4 py-2 text-sm">Holaaa</p>
-                          <button class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" (click)="logout()">Cerrar sesión</button>
-                      </div>
-                  </div>
-              </div>
-          </li>
-      </ul>
-  </div>
+    <div class="flex flex-wrap justify-center gap-2 pt-3 pb-3">
+      <button (click)="actBoton(location.name)" class="ring-2 ring-blue-500 bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-2 rounded-full" *ngFor="let location of locations">
+        {{location.name}}
+      </button>
+    </div>
+  </nav>
 </div>
-
-</div>
-<form  class="flex justify-center py-3 lg:hidden bg-slate-800/40">
-  <input type="text" class="items-center w-68 text-left space-x-3 px-4 h-11 bg-white ring-1 ring-slate-900/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-l-lg text-slate-400 dark:bg-slate-800 dark:ring-0 dark:text-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700 font-medium" placeholder="Buscar ciudad"  />
-  <button type="submit" class="px-5 h-11 bg-sky-400 text-white ring-1 ring-slate-900/10 hover:ring-slate-300 font-medium focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-r-lg dark:ring-0 dark:text-white dark:highlight-white/5 dark:hover:bg-slate-700 dark:bg-sky-400"> Buscar</button>
-</form>
-
-<div class="flex space-x-2 pt-3 pb-3">
-  <button (click)="actBoton(location.name)" class="ring-2 ring-blue-500 bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-2 gap-3 rounded-full" *ngFor="let location of locations">
-    {{location.name}}
-  </button>
-</div>
-
-
-
-
-
 
