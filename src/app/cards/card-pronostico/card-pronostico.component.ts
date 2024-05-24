@@ -13,6 +13,9 @@ export class CardPronosticoComponent {
   @Input() forecastData: any;
   nextForecasts: any[] = [];
   faDroplet = faDroplet;
+  weeklyForecast: any[] = [];
+  public forecastLimit = 4;
+
 constructor(private weatherService: WeatherService) { }
 
 ngOnInit(): void {
@@ -35,6 +38,21 @@ ngOnChanges(changes: SimpleChanges): void {
       const now = new Date();
       this.nextForecasts = this.forecastData.list.filter((forecast: any) => new Date(forecast.dt_txt) > now).slice(0, 4);
     }
+  }
+}
+public toggleForecastLimit(): void {
+  this.forecastLimit = this.forecastLimit === 4 ? this.weeklyForecast.length : 4;
+}
+
+updateWeeklyForecast(): void {
+  if (this.forecastData && this.forecastData.list) {
+    this.weeklyForecast = this.forecastData.list.map((forecast: any) => {
+      // Convertir la cadena de fecha y hora a un objeto Date
+      forecast.dt_txt = new Date(forecast.dt_txt);
+      return forecast;
+    }).slice(0, 8); // Limitar la salida a 8 elementos
+    // Actualizar nextForecasts con todos los pronósticos
+    this.nextForecasts = this.weeklyForecast;
   }
 }
 

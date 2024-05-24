@@ -1,7 +1,7 @@
 <div class="flex justify-center items-center ">
   <div class="w-11/12 lg:w-6/12 bg-white rounded-lg shadow-md flex items-center mt-4 pb-4 px-4 pt-3 flex-wrap dark:bg-slate-900">
     <h2 class="block w-full text-black font-bold text-xl dark:text-white pb-2">Pronóstico de hoy para {{ weatherData?.name }}, {{ weatherData?.sys.country }}</h2>
-    <ng-container *ngFor="let forecast of nextForecasts">
+    <ng-container *ngFor="let forecast of nextForecasts | slice:0:forecastLimit">
 
       <div class="w-1/4 flex-col m-auto items-center text-center py-3 borde-medio">
         <p class="font-bold text-black pb-2 dark:text-white">{{ forecast.dt_txt | date:'HH'}}h</p>
@@ -10,6 +10,6 @@
       </div>
 
     </ng-container>
-    <button class="block mt-2 text-white font-bold bg-blue-600 py-2 px-3 text-sm rounded-3xl hover:shadow-md hover:shadow-blue-600/40">Próximas horas</button>
+    <button (click)="updateWeeklyForecast()" (click)="toggleForecastLimit()" class="block mt-2 text-white font-bold bg-blue-600 py-2 px-3 text-sm rounded-3xl hover:shadow-md hover:shadow-blue-600/40">Próximas horas</button>
   </div>
 </div>
