@@ -41,7 +41,27 @@ export class RegistroComponent {
     })
     .catch((error) => {
       // Maneja el error aquí.
-      console.error("Error al crear el usuario: ", error);
+      let errorMessage = '';
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          errorMessage = 'El correo electrónico ya está en uso';
+          break;
+        case 'auth/invalid-email':
+          errorMessage = 'El correo electrónico no es válido';
+          break;
+        case 'auth/operation-not-allowed':
+          errorMessage = 'La operación no está permitida';
+          break;
+        case 'auth/weak-password':
+          errorMessage = 'La contraseña es demasiado débil';
+          break;
+        default:
+          errorMessage = 'Error desconocido';
+          break;
+      }
+      this.snackBar.open(errorMessage, 'Cerrar', {
+        duration: 2000,
+      });
     });
 }
 

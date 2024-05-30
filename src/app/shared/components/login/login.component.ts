@@ -29,15 +29,40 @@ login() {
   const auth = getAuth();
   signInWithEmailAndPassword(auth, this.loginForm.value.username, this.loginForm.value.password)
     .then((userCredential) => {
-      // Guardar los datos del usuario en el almacenamiento local
+
+
       localStorage.setItem('user', JSON.stringify(userCredential.user));
       localStorage.setItem('isLoggedIn', 'true');
-      // Emitir evento de éxito de inicio de sesión
+
       this.loginSuccess.emit();
       location.reload();
     })
     .catch((error) => {
-      console.error(error);
+      let errorMessage = '';
+      switch (error.code) {
+        case 'auth/user-not-found':
+          errorMessage = 'Usuario no encontrado';
+          this.snackBar.open(errorMessage, 'Cerrar', {
+            duration: 2000,
+          });
+          break;
+        case 'auth/wrong-password':
+          errorMessage = 'Contraseña incorrecta';
+          this.snackBar.open(errorMessage, 'Cerrar', {
+            duration: 2000,
+          });
+          break;
+          case 'auth/invalid-credential':
+            errorMessage = 'Credenciales incorrectas';
+            this.snackBar.open(errorMessage, 'Cerrar', {
+              duration: 2000,
+            });
+            break;
+        // Añade más casos según necesites
+
+      }
+
+
     });
 }
 
@@ -46,7 +71,7 @@ loginWithGoogle() {
   const auth = getAuth();
   signInWithPopup(auth, provider)
     .then((result) => {
-      // El usuario ha iniciado sesión correctamente.
+
       localStorage.setItem('user', JSON.stringify(result.user));
       localStorage.setItem('isLoggedIn', 'true');
       this.loginSuccess.emit();
