@@ -21,10 +21,10 @@ export class HeaderComponent  {
   city: string = '';weatherData: any;
   forecastData: any;
   isLoggedIn = false;
-  user: any; // define la propiedad 'user' aquí
+  user: any; 
   citySuggestions: any[] = [];
-  autocompleteResults: any[] = []; // añade esta línea
-  locations: any[] = []; // Añade esta línea para definir la propiedad 'locations'
+  autocompleteResults: any[] = [];
+  locations: any[] = [];
 
 
 
