@@ -22,7 +22,7 @@ export class MapaComponent implements AfterViewInit {
   }
 
   private initMap(): void {
-    this.map = L.map('map').setView([30.4637, -3.7492], 3);
+    this.map = L.map('map').setView([37.4637, -3.7492], 6);
 
     // Agrega la capa de mapa base de OpenStreetMap
     this.baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
